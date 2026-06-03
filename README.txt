@@ -40,3 +40,32 @@
     │   └── style.css    # Глобальні стилі додатку (Dark Glassmorphism)
     ├── script.js        # Фронтенд-логіка (асинхронні запити, debounce, автопідстановка)
     └── uploaded_sites/  # Директорія, де ізольовано зберігаються розпаковані сайти
+
+
+## 🚀 Локальне розгортання (Local Setup)
+
+### 1. Клонування репозиторію
+```bash
+git clone https://github.com/your-username/dev-hub.git
+cd dev-hub
+```
+
+### 2. Налаштування віртуального оточення та залежностей
+```bash
+python -m venv venv
+source venv/bin/activate  # Для Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 3. Конфігурація бази даних
+Переконайся, що у тебе запущений PostgreSQL сервер. У файлі `database.py` вкажи свій рядок підключення:
+
+```python
+SQLALCHEMY_DATABASE_URL = "postgresql://username:password@localhost:5432/devhub_db"
+```
+
+### 4. Запуск сервера
+```bash
+uvicorn main:app --reload
+```
+Додаток буде доступний за адресою: http://127.0.0.1:8000
