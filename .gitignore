@@ -1,0 +1,59 @@
+# Залежності проекту (папки з бібліотеками)
+node_modules/
+bower_components/
+vendor/
+.venv/
+env/
+
+# Логи та тимчасові файли
+*.log
+*.tmp
+*.bak
+npm-debug.log*
+yarn-debug.log*
+
+# Конфігурації середовища та секрети (паролі, ключі API)
+.env
+.env.local
+.env.production
+*.pem
+*.key
+
+# Системні файли операційних систем
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Файли збірки та компіляції
+dist/
+build/
+out/
+*.exe
+*.dll
+
+# Налаштування редакторів коду та IDE
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Кеш та тимчасові файли Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+.htmlcov/
+.mypy_cache/
+
+# Налаштування VS Code
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+
+
+# Ігноруємо завантажені сайти, але залишаємо .gitkeep для збереження структури папки
+static/uploaded_sites/*
+!static/uploaded_sites/.gitkeep

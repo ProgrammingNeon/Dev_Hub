@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ student.student_name }} | Профіль DEV•HUB</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+
+
+<header class="main-header">
+    <div class="header-container">
+        <a href="/" class="logo">
+            DEV<span>•HUB</span>
+        </a>
+
+        <button class="burger-menu" aria-label="Увімкнути меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="nav-menu">
+            <a href="/" class="nav-link">Головна</a>
+            <a href="/portfolios" class="nav-link">Каталог</a>
+            <a href="/upload" class="nav-link">Завантажити</a>
+            
+            <div class="mobile-actions">
+                <a href="https://github.com/ProgrammingNeon" target="_blank" class="github-btn">
+                    <svg class="github-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.38-1.99 1.03-2.69-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="header-actions">
+            <a href="https://github.com/ProgrammingNeon" target="_blank" class="github-btn">
+                <svg class="github-icon" viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.38-1.99 1.03-2.69-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
+                </svg>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+<main class="container student-profile-main">
+    <div class="profile-card">
+        <div class="profile-avatar">
+            {{ student.student_name.split()[0][0] if student.student_name.split() else '' }}
+        </div>
+        <div class="profile-info">
+            <h1 class="profile-name">{{ student.student_name }}</h1>
+            
+            <div class="profile-tags">
+                {% for tech in tech_stack %}
+                    <span class="tag tech-tag">
+                        🚀 {{ tech }}
+                    </span>
+                {% endfor %}
+            </div>
+
+            <div class="profile-contacts">
+                <a href="https://t.me/{{ student.student_tg.replace('@', '') }}" target="_blank" class="profile-contact-link">
+                    <span>💬 Telegram: <strong>{{ student.student_tg }}</strong></span>
+                </a>
+                <a href="mailto:{{ student.student_email }}" class="profile-contact-link">
+                    <span>✉️ Email: <strong>{{ student.student_email }}</strong></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="profile-section-title">Усі проєкти розробника ({{ student.projects|length }})</h2>
+    
+    <div class="featured-grid">
+        {% for project in student.projects %}
+        <div class="student-card">
+            <div class="card-header">
+                <div class="student-avatar project-icon-avatar">
+                    💻
+                </div>
+                <div class="student-info">
+                    <h3 class="student-name">Проєкт #{{ loop.index }}</h3>
+                    <span class="project-role-badge">
+                        {{ project.project_role.upper() }}
+                    </span>
+                </div>
+            </div>
+            <p class="student-bio">{{ project.student_bio }}</p>
+            
+            <a href="{{ project.site_path }}" target="_blank" class="card-btn">
+                <span>Відкрити сайт</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+
+
+
+
+
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <a href="/" class="footer-logo">DEV<span>•HUB</span></a>
+            <p class="footer-copy">© 2026 • Зроблено з кодом та душею для нашої групи.</p>
+        </div>
+
+        <div class="footer-links">
+            <a href="/" class="footer-link">Головна</a>
+            <a href="/portfolios" class="footer-link">Каталог</a>
+            <a href="/upload" class="footer-link">Завантажити</a>
+        </div>
+
+        <div class="footer-contacts">
+            <a href="https://t.me/Alexei_tgg" target="_blank" class="social-link">
+                <span>Telegram автора</span>
+            </a>
+            <a href="https://github.com/ProgrammingNeon" target="_blank" class="social-link">
+                <span>GitHub проєкту</span>
+            </a>
+        </div>
+    </div>
+</footer>
+
+
+
+    <script src="{{ url_for('static', path='script.js') }}"></script>
+</body>
+</html>

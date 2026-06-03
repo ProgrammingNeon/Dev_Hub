@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEV•HUB — Портфоліо нашої групи</title>
+    <!-- <link rel="stylesheet" href="/static/css/style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-container">
+        <a href="/" class="logo">
+            DEV<span>•HUB</span>
+        </a>
+
+        <button class="burger-menu" aria-label="Увімкнути меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="nav-menu">
+            <a href="/" class="nav-link active">Головна</a>
+            <a href="/portfolios" class="nav-link">Каталог</a>
+            <a href="/upload" class="nav-link">Завантажити</a>
+            
+            <div class="mobile-actions">
+                <a href="https://github.com/ProgrammingNeon" target="_blank" class="github-btn">
+                    <svg class="github-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.38-1.99 1.03-2.69-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="header-actions">
+            <a href="https://github.com/ProgrammingNeon" target="_blank" class="github-btn">
+                <svg class="github-icon" viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.38-1.99 1.03-2.69-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
+                </svg>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+
+<main class="container">
+    
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-badge">🟢 ITSTEP 2026</div>
+        
+        <h1 class="hero-title">
+            Цифровий архів та хостинг <span>сайтів</span> нашої групи
+        </h1>
+        
+        <p class="hero-subtitle">
+            Платформа для демонстрації вебробіт, автоматичного деплою з файлів та збереження випускних проєктів в одному місці.
+        </p>
+        
+        <div class="hero-buttons">
+            <a href="/portfolios" class="btn btn-primary">Дивитись роботи</a>
+            <a href="/upload" class="btn btn-outline">Додати свій сайт</a>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<section class="stats-section">
+    <div class="stats-container"> 
+        <div class="stat-card">
+            <h2 class="stat-number">{{ total_students }}</h2>
+            <p class="stat-label">Студентів на платформі</p>
+        </div>
+        
+        <div class="stat-card">
+            <h2 class="stat-number">{{ total_projects }}</h2>
+            <p class="stat-label">Проєктів задеплоєно</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="featured-section">
+    <div class="featured-top">
+        <h2 class="featured-title">Таланти нашої групи</h2>
+        <p class="featured-desc">Останні деплої та найкращі проєкти студентів, які вже доступні для перегляду.</p>
+    </div>
+
+    {% if projects %}
+        <div class="featured-grid">
+            {% for project in projects %}
+            <div class="student-card" style="display: flex; flex-direction: column;">
+                <div class="card-header">
+                    <div class="student-avatar">
+                        {% set name_parts = project.owner.student_name.split() %}
+                        {% if name_parts|length > 1 %}
+                            {{ name_parts[0][0] | upper }}{{ name_parts[1][0] | upper }}
+                        {% else %}
+                            {{ project.owner.student_name[:2] | upper }}
+                        {% endif %}
+                    </div>
+                    <div class="student-info">
+                        <h3 class="student-name">
+                            <a href="/student/{{ project.student_id }}" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-color)'" onmouseout="this.style.color='inherit'">
+                                {{ project.owner.student_name }}
+                            </a>
+                        </h3>
+                        <span class="student-role">
+                            {% if project.owner.student_role == 'frontend' %}Frontend Developer
+                            {% elif project.owner.student_role == 'backend' %}Backend Developer
+                            {% elif project.owner.student_role == 'fullstack' %}Fullstack Developer
+                            {% elif project.owner.student_role == 'designer' %}UI/UX Designer
+                            {% else %}{{ project.owner.student_role }}{% endif %}
+                        </span>
+                    </div>
+                </div>
+                <p class="student-bio" style="flex-grow: 1;">{{ project.student_bio }}</p>
+                
+                <div class="student-tags" style="margin-bottom: 15px; display: flex; gap: 8px;">
+                    <span class="tag" style="font-size: 11px; padding: 4px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; color: var(--text-muted);">{{ project.owner.student_role.upper() }}</span>
+                    <span class="tag" style="font-size: 11px; padding: 4px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; color: var(--text-muted);">Проєкт #{{ project.owner.projects.index(project) + 1 }}</span>
+                </div>
+
+                <a href="{{ project.site_path }}" target="_blank" class="card-btn" style="margin-top: auto; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none;">
+                    <span>Відкрити сайт</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" style="fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-projects-placeholder" style="text-align: center; padding: 50px 20px; background: rgba(11, 15, 25, 0.3); border: 1px solid var(--border-color); border-radius: 20px; max-width: 500px; margin: 30px auto; backdrop-filter: blur(12px);">
+            <div style="font-size: 2.5rem; margin-bottom: 15px;">🚀</div>
+            <h3 style="margin: 0 0 8px 0; font-size: 1.2rem; font-weight: 700; color: var(--text-main);">Проєктів ще немає</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5;">На базі поки що немає вивантажених портфоліо. Станьте першим розробником групи, хто задеплоїть свій сайт!</p>
+            <a href="/upload" style="display: inline-block; background: var(--accent-color); color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: opacity 0.2s;" onwhite="this.style.opacity='0.9'">
+                Завантажити перший проєкт
+            </a>
+        </div>
+    {% endif %}
+</section>
+
+
+
+<section class="about-section">
+    <div class="about-container">
+        <div class="about-info">
+            <h2 class="about-title">Про проєкт</h2>
+            <p class="about-text">
+                Ця платформа створена для автоматизації хостингу студентських робіт. Бекенд сайту написаний на FastAPI. Він приймає завантажений `.zip` архів, перевіряє його безпеку, автоматично розпаковує у внутрішню директорію сервера та миттєво генерує унікальне посилання на готове портфоліо.
+            </p>
+        </div>
+        
+        <div class="about-steps">
+            <div class="step-item">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h4 class="step-title">Підготуй сайт</h4>
+                    <p class="step-desc">Перевір, щоб у колірних та медійних шляхах використовувалися відносні посилання, а головна сторінка називалася index.html.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h4 class="step-title">Зроби .zip архів</h4>
+                    <p class="step-desc">Виділи всі файли свого проєкту (html, css, js, папки з картинками) та запакуй їх в один загальний архів.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h4 class="step-title">Завантаж на хаб</h4>
+                    <p class="step-desc">Перейди в розділ "Завантажити", заповни коротку інфу про себе, прикріпи архів та тисни деплой. Сайт з'явиться в каталозі.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+
+
+
+
+
+
+
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <a href="/" class="footer-logo">DEV<span>•HUB</span></a>
+            <p class="footer-copy">© 2026 • Зроблено з кодом та душею для нашої групи.</p>
+        </div>
+
+        <div class="footer-links">
+            <a href="/" class="footer-link">Головна</a>
+            <a href="/portfolios" class="footer-link">Каталог</a>
+            <a href="/upload" class="footer-link">Завантажити</a>
+        </div>
+
+        <div class="footer-contacts">
+            <a href="https://t.me/Alexei_tgg" target="_blank" class="social-link">
+                <span>Telegram автора</span>
+            </a>
+            <a href="https://github.com/ProgrammingNeon" target="_blank" class="social-link">
+                <span>GitHub проєкту</span>
+            </a>
+        </div>
+    </div>
+</footer>
+
+
+<script src="{{ url_for('static', path='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+.main-footer {
+    background-color: rgba(11, 15, 25, 0.8);
+    border-top: 1px solid var(--border-color);
+    padding: 40px 20px;
+    margin-top: 40px;
+}
+
+
+
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-main);
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.footer-logo span {
+    color: var(--accent-color);
+}
+
+.footer-copy {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-link {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--text-main);
+}
+
+.footer-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.social-link {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-link:hover {
+    color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+    .main-footer {
+        padding: 40px 16px 30px 16px;
+        margin-top: 30px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        gap: 32px;
+        text-align: center;
+    }
+
+    .footer-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .footer-contacts {
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .footer-brand {
+        order: 3; 
+        gap: 12px;
+        width: 100%;
+        border-top: 1px solid var(--border-color);
+        padding-top: 24px;
+    }
+
+    .footer-logo {
+        font-size: 18px;
+    }
+
+    .footer-copy {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+}

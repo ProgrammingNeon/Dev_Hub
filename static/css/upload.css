@@ -1,0 +1,239 @@
+.upload-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.upload-container {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.upload-header {
+    margin-bottom: 32px;
+}
+
+.upload-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+}
+
+.upload-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+    background-color: rgba(11, 15, 25, 0.6);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none; 
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.15);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.drop-zone {
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 32px 20px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    background-color: rgba(11, 15, 25, 0.3);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.drop-zone:hover {
+    border-color: var(--accent-color);
+    background-color: rgba(139, 92, 246, 0.02);
+}
+
+.drop-zone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.upload-icon {
+    color: var(--text-muted);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.drop-zone:hover .upload-icon {
+    color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.drop-zone-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.drop-zone-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    max-width: 400px;
+    line-height: 1.4;
+}
+
+.drop-zone-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; 
+    cursor: pointer;
+}
+
+.submit-btn {
+    width: 100%;
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+
+
+
+
+#student-name-hint {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    min-height: 20px;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .upload-section {
+        margin: 20px auto;
+        padding: 0 12px;
+    }
+
+    .upload-container {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+
+    .upload-header {
+        margin-bottom: 24px;
+    }
+
+    .upload-title {
+        font-size: 24px;
+    }
+
+    .upload-desc {
+        font-size: 13px;
+    }
+
+    .upload-form {
+        gap: 18px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group select,
+    .form-group textarea {
+        padding: 14px; 
+        font-size: 15px; 
+    }
+
+    .drop-zone {
+        padding: 24px 12px;
+    }
+
+    .drop-zone-text {
+        font-size: 13px;
+    }
+
+    .drop-zone-hint {
+        font-size: 11px;
+    }
+    
+    .submit-btn {
+        padding: 14px;
+        font-size: 16px;
+    }
+}
+
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-text-fill-color: #ffffff !important;
+    box-shadow: 0 0 0px 1000px #1E222F inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
