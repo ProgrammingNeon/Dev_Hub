@@ -40,8 +40,9 @@
     │   └── style.css    # Глобальні стилі додатку (Dark Glassmorphism)
     ├── script.js        # Фронтенд-логіка (асинхронні запити, debounce, автопідстановка)
     └── uploaded_sites/  # Директорія, де ізольовано зберігаються розпаковані сайти
+```
 
----
+--- 
 
 ## 🚀 Локальне розгортання (Local Setup)
 
@@ -50,6 +51,7 @@
 git clone https://github.com/your-username/dev-hub.git
 cd dev-hub
 ```
+
 
 ### 2. Налаштування віртуального оточення та залежностей
 ```bash
