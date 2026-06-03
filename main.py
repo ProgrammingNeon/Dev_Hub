@@ -7,6 +7,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from transliterate import slugify
 import shutil
+from typing import Optional
 
 import models
 from database import engine, get_db
@@ -77,19 +78,17 @@ async def read_upload(request: Request):
 
 
 
-
-
-
-
 @app.post("/upload-portfolio")
 async def upload_portfolio(
     student_name: str = Form(...),
-    student_role: str = Form(...),
-    student_tg: str = Form(...),
-    student_email: str = Form(...),
+    project_role: str = Form(...),  
+    telegram: str = Form(...),      
+    email: str = Form(...),         
+    site_name: str = Form(...),          
     student_bio: str = Form(...),
     zip_file: UploadFile = File(...),
-    db: Session = Depends(get_db)
+    preview_image: Optional[UploadFile] = File(None), 
+    db: Session = Depends(get_db) 
 ):
     if not zip_file.filename.endswith('.zip'):
         raise HTTPException(status_code=400, detail="Дозволені тільки файли з розширенням .zip")
@@ -97,18 +96,13 @@ async def upload_portfolio(
     zip_file.file.seek(0, os.SEEK_END)
     file_size = zip_file.file.tell()
     zip_file.file.seek(0)
-
     if file_size > MAX_FILE_SIZE:
-        raise HTTPException(
-            status_code=400, 
-            detail=f"Файл занадто великий! Максимальний розмір архіву: {MAX_FILE_SIZE // (1024*1024)} МБ"
-        )
+        raise HTTPException(status_code=400, detail="Файл архіву занадто великий!")
 
     cleaned_name = " ".join(student_name.split()).strip()
     
     temp_student = db.query(models.Student).filter(models.Student.student_name.ilike(cleaned_name)).first()
     project_idx = len(temp_student.projects) + 1 if temp_student else 1
-    
     folder_base = slugify(cleaned_name) or cleaned_name.lower().replace(" ", "-")
     folder_name = f"{folder_base}-project-{project_idx}"
     upload_dir = os.path.join("static", "uploaded_sites", folder_name)
@@ -121,44 +115,31 @@ async def upload_portfolio(
     with open(zip_path, "wb") as buffer:
         buffer.write(await zip_file.read())
 
-    total_uncompressed_size = 0
-    
     try:
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             for member in zip_ref.infolist():
-                if member.is_dir():
-                    continue
-                
-                total_uncompressed_size += member.file_size
-                if total_uncompressed_size > MAX_UNZIP_SIZE:
-                    raise HTTPException(
-                        status_code=400, 
-                        detail=f"Захист сервера: розпакований вміст перевищує ліміт у {MAX_UNZIP_SIZE // (1024*1024)} МБ"
-                    )
-                
+                if member.is_dir(): continue
+                if member.file_size > MAX_UNZIP_SIZE:
+                    raise HTTPException(status_code=400, detail="Розпакований вміст перевищує ліміт")
                 _, ext = os.path.splitext(member.filename.lower())
                 if ext and ext not in ALLOWED_EXTENSIONS:
-                    raise HTTPException(
-                        status_code=400, 
-                        detail=f"Безпека: архів містить заборонений тип файлу ({ext}). Дозволено тільки frontend-файли."
-                    )
-            
+                    raise HTTPException(status_code=400, detail="Архів містить заборонений тип файлу")
             zip_ref.extractall(upload_dir)
-            
-    except zipfile.BadZipFile:
-        if os.path.exists(upload_dir):
-            shutil.rmtree(upload_dir)
-        raise HTTPException(status_code=400, detail="Файл корумпований або не є валідним ZIP-архівом")
-    except HTTPException as http_err:
-        if os.path.exists(upload_dir):
-            shutil.rmtree(upload_dir)
-        raise http_err
     finally:
         if os.path.exists(zip_path):
             os.remove(zip_path)
 
+    saved_preview_url = None
+    if preview_image and preview_image.filename:
+        _, img_ext = os.path.splitext(preview_image.filename.lower())
+        if img_ext in ['.png', '.jpg', '.jpeg', '.webp', '.svg']:
+            img_name = f"preview{img_ext}"
+            img_path = os.path.join(upload_dir, img_name)
+            with open(img_path, "wb") as img_buffer:
+                img_buffer.write(await preview_image.read())
+            saved_preview_url = f"/static/uploaded_sites/{folder_name}/{img_name}"
+
     relative_index_path = None
-    
     for root, dirs, files in os.walk(upload_dir):
         if "index.html" in files:
             relative_path = os.path.relpath(os.path.join(root, "index.html"), start=".")
@@ -168,39 +149,30 @@ async def upload_portfolio(
     if not relative_index_path:
         if os.path.exists(upload_dir):
             shutil.rmtree(upload_dir)
-        raise HTTPException(status_code=400, detail="Валідація провалена: в архіві не знайдено головного файлу index.html")
+        raise HTTPException(status_code=400, detail="В архіві не знайдено index.html")
 
     student = db.query(models.Student).filter(models.Student.student_name.ilike(cleaned_name)).first()
-
     if student:
-        student.student_role = student_role
-        student.student_tg = student_tg
-        student.student_email = student_email
+        student.student_role = project_role
+        student.student_tg = telegram
+        student.student_email = email
     else:
-        student = models.Student(
-            student_name=cleaned_name,
-            student_role=student_role,
-            student_tg=student_tg,
-            student_email=student_email
-        )
+        student = models.Student(student_name=cleaned_name, student_role=project_role, student_tg=telegram, student_email=email)
         db.add(student)
         db.flush()
 
     new_project = models.Project(
+        site_name=site_name,               
+        site_preview=saved_preview_url,   
         student_bio=student_bio,
         site_path=relative_index_path,
         student_id=student.id,
-        project_role=student_role
+        project_role=project_role
     )
     db.add(new_project)
     db.commit()
 
     return RedirectResponse(url="/portfolios", status_code=303)
-
-
-
-
-
 
 
 

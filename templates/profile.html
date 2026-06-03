@@ -51,7 +51,6 @@
 
 
 
-
 <main class="container student-profile-main">
     <div class="profile-card">
         <div class="profile-avatar">
@@ -83,31 +82,40 @@
     
     <div class="featured-grid">
         {% for project in student.projects %}
-        <div class="student-card">
-            <div class="card-header">
-                <div class="student-avatar project-icon-avatar">
-                    💻
-                </div>
-                <div class="student-info">
-                    <h3 class="student-name">Проєкт #{{ loop.index }}</h3>
-                    <span class="project-role-badge">
-                        {{ project.project_role.upper() }}
-                    </span>
-                </div>
-            </div>
-            <p class="student-bio">{{ project.student_bio }}</p>
+        <div class="student-card website-card">
             
-            <a href="{{ project.site_path }}" target="_blank" class="card-btn">
-                <span>Відкрити сайт</span>
-            </a>
+            <div class="site-card-preview">
+                {% if project.site_preview %}
+                    <img src="{{ project.site_preview }}" alt="{{ project.site_name }}" class="preview-img">
+                {% else %}
+                    <div class="preview-placeholder">
+                        <div class="placeholder-icon">🌐</div>
+                        <div class="placeholder-text">ПРЕВ'Ю ВІДСУТНЄ</div>
+                    </div>
+                {% endif %}
+                <span class="site-category-tag">{{ project.project_role.upper() }}</span>
+            </div>
+
+            <div class="card-body">
+                <h3 class="site-title">{{ project.site_name }}</h3>
+                
+                <p class="student-bio">{{ project.student_bio }}</p>
+                
+                <div class="student-tags">
+                    <span class="tag">Сайт #{{ loop.index }}</span>
+                </div>
+                
+                <a href="{{ project.site_path }}" target="_blank" class="card-btn">
+                    <span>Відкрити вебсайт</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" class="btn-icon">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
         </div>
         {% endfor %}
     </div>
 </main>
-
-
-
-
 
 
 

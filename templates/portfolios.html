@@ -82,41 +82,51 @@
     <div class="featured-grid" id="portfolios-container">
         {% if projects %}
             {% for project in projects %}
-            <div class="student-card" 
-                data-role="{{ project.owner.student_role }}" 
-                data-search="{{ project.owner.student_name.lower() }} {{ project.student_bio.lower() }}">
-                <div class="card-header">
-                    <div class="student-avatar">
-                        {{ project.owner.student_name.split()[0][0] if project.owner.student_name.split() else '' }}{{ project.owner.student_name.split()[1][0] if project.owner.student_name.split()|length > 1 else '' }}
-                    </div>
-                    <div class="student-info">
-                        <h3 class="student-name">
-                            <a href="/student/{{ project.student_id }}" class="student-link">
+            <div class="student-card website-card" 
+                data-role="{{ project.project_role }}" 
+                data-search="{{ project.site_name.lower() }} {{ project.owner.student_name.lower() }} {{ project.student_bio.lower() }}">
+                
+                <div class="site-card-preview">
+                    {% if project.site_preview %}
+                        <img src="{{ project.site_preview }}" alt="{{ project.site_name }}" class="preview-img">
+                    {% else %}
+                        <div class="preview-placeholder">
+                            <div class="placeholder-icon">🌐</div>
+                            <div class="placeholder-text">ПРЕВ'Ю ВІДСУТНЄ</div>
+                        </div>
+                    {% endif %}
+                    <span class="site-category-tag">{{ project.project_role.upper() }}</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="card-header">
+                        <div class="student-avatar">
+                            {{ project.owner.student_name.split()[0][0] if project.owner.student_name.split() else '' }}{{ project.owner.student_name.split()[1][0] if project.owner.student_name.split()|length > 1 else '' }}
+                        </div>
+                        <div class="student-info">
+                            <span class="author-label">Автор сайту:</span>
+                            <h4 class="author-name">
+                                <a href="/student/{{ project.student_id }}" class="student-link">
                                     {{ project.owner.student_name }}
-                            </a>
-                         </h3>            
-                         <span class="student-role">
-                            {% if project.owner.student_role == 'frontend' %}Frontend Developer
-                            {% elif project.owner.student_role == 'backend' %}Backend Developer
-                            {% elif project.owner.student_role == 'fullstack' %}Fullstack Developer
-                            {% elif project.owner.student_role == 'designer' %}UI/UX Designer
-                            {% else %}{{ project.owner.student_role }}{% endif %}
-                        </span>
+                                </a>
+                            </h4>
+                        </div>
                     </div>
+
+                    <h3 class="site-title">{{ project.site_name }}</h3>
+                    <p class="student-bio">{{ project.student_bio }}</p>
+                    
+                    <div class="student-tags">
+                        <span class="tag">ПРОЄКТ #{{ project.owner.projects.index(project) + 1 }}</span>
+                    </div>
+                    
+                    <a href="{{ project.site_path }}" target="_blank" class="card-btn">
+                        <span>Відкрити вебсайт</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" class="btn-icon">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </div>
-                <p class="student-bio">{{ project.student_bio }}</p>
-                
-                <div class="student-tags">
-                    <span class="tag">{{ project.owner.student_role.upper() }}</span>
-                    <span class="tag">Проєкт #{{ project.owner.projects.index(project) + 1 }}</span>
-                </div>
-                
-                <a href="{{ project.site_path }}" target="_blank" class="card-btn">
-                    <span>Відкрити сайт</span>
-                    <svg viewBox="0 0 24 24" width="16" height="16" class="btn-icon">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
             </div>
             {% endfor %}
         {% else %}
@@ -126,7 +136,6 @@
         {% endif %}
     </div>
 </section>
-
 
 <div class="no-results" id="no-results-block" style="display: none;">
     <div class="no-results-icon">

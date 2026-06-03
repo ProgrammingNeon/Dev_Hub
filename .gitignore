@@ -57,3 +57,5 @@ __pycache__/
 # Ігноруємо завантажені сайти, але залишаємо .gitkeep для збереження структури папки
 static/uploaded_sites/*
 !static/uploaded_sites/.gitkeep
+
+txt.txt

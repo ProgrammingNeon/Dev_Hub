@@ -266,3 +266,20 @@ document.addEventListener("DOMContentLoaded", () => {
     initStudentCheck();
     initBurgerMenu();
 });
+
+
+
+
+
+
+// Додаткові слухачі для оновлення назв вибраних файлів поруч з інпутами
+
+document.getElementById('zip_file').addEventListener('change', function() {
+        const name = this.files[0] ? this.files[0].name : 'Файл не вибрано';
+        document.getElementById('zip-label').textContent = name;
+    });
+
+    document.getElementById('preview_image').addEventListener('change', function() {
+        const name = this.files[0] ? this.files[0].name : 'Файл не вибрано';
+        document.getElementById('preview-label').textContent = name;
+    });

@@ -95,66 +95,73 @@
 
 <section class="featured-section">
     <div class="featured-top">
-        <h2 class="featured-title">Таланти нашої групи</h2>
-        <p class="featured-desc">Останні деплої та найкращі проєкти студентів, які вже доступні для перегляду.</p>
+        <h2 class="featured-title">Останні опубліковані сайти</h2>
+        <p class="featured-desc">Проєкти та вебсервіси, які розробники вже розгорнули на нашому локальному хостингу.</p>
     </div>
 
     {% if projects %}
         <div class="featured-grid">
             {% for project in projects %}
-            <div class="student-card" style="display: flex; flex-direction: column;">
-                <div class="card-header">
-                    <div class="student-avatar">
-                        {% set name_parts = project.owner.student_name.split() %}
-                        {% if name_parts|length > 1 %}
-                            {{ name_parts[0][0] | upper }}{{ name_parts[1][0] | upper }}
-                        {% else %}
-                            {{ project.owner.student_name[:2] | upper }}
-                        {% endif %}
-                    </div>
-                    <div class="student-info">
-                        <h3 class="student-name">
-                            <a href="/student/{{ project.student_id }}" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-color)'" onmouseout="this.style.color='inherit'">
-                                {{ project.owner.student_name }}
-                            </a>
-                        </h3>
-                        <span class="student-role">
-                            {% if project.owner.student_role == 'frontend' %}Frontend Developer
-                            {% elif project.owner.student_role == 'backend' %}Backend Developer
-                            {% elif project.owner.student_role == 'fullstack' %}Fullstack Developer
-                            {% elif project.owner.student_role == 'designer' %}UI/UX Designer
-                            {% else %}{{ project.owner.student_role }}{% endif %}
-                        </span>
-                    </div>
-                </div>
-                <p class="student-bio" style="flex-grow: 1;">{{ project.student_bio }}</p>
+            <div class="student-card website-card">
                 
-                <div class="student-tags" style="margin-bottom: 15px; display: flex; gap: 8px;">
-                    <span class="tag" style="font-size: 11px; padding: 4px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; color: var(--text-muted);">{{ project.owner.student_role.upper() }}</span>
-                    <span class="tag" style="font-size: 11px; padding: 4px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; color: var(--text-muted);">Проєкт #{{ project.owner.projects.index(project) + 1 }}</span>
+                <div class="site-card-preview">
+                    {% if project.site_preview %}
+                        <img src="{{ project.site_preview }}" alt="{{ project.site_name }}" class="preview-img">
+                    {% else %}
+                        <div class="preview-placeholder">
+                            <div class="placeholder-icon">🌐</div>
+                            <div class="placeholder-text">ПРЕВ'Ю ВІДСУТНЄ</div>
+                        </div>
+                    {% endif %}
+                    <span class="site-category-tag">{{ project.project_role.upper() }}</span>
                 </div>
 
-                <a href="{{ project.site_path }}" target="_blank" class="card-btn" style="margin-top: auto; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none;">
-                    <span>Відкрити сайт</span>
-                    <svg viewBox="0 0 24 24" width="16" height="16" style="fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
+                <div class="card-body">
+                    <div class="card-header">
+                        <div class="student-avatar">
+                            {% set name_parts = project.owner.student_name.split() %}
+                            {% if name_parts|length > 1 %}
+                                {{ name_parts[0][0] | upper }}{{ name_parts[1][0] | upper }}
+                            {% else %}
+                                {{ project.owner.student_name[:2] | upper }}
+                            {% endif %}
+                        </div>
+                        <div class="student-info">
+                            <span class="author-label">Розробник:</span>
+                            <h3 class="student-name">
+                                <a href="/student/{{ project.student_id }}" class="author-profile-link">
+                                    {{ project.owner.student_name }}
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+
+                    <h3 class="site-title">{{ project.site_name }}</h3>
+                    <p class="student-bio">{{ project.student_bio }}</p>
+                    
+                    <div class="student-tags">
+                        <span class="tag">Проєкт #{{ project.owner.projects.index(project) + 1 }}</span>
+                    </div>
+
+                    <a href="{{ project.site_path }}" target="_blank" class="card-btn">
+                        <span>Відкрити вебсайт</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" class="btn-icon">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
             {% endfor %}
         </div>
     {% else %}
-        <div class="no-projects-placeholder" style="text-align: center; padding: 50px 20px; background: rgba(11, 15, 25, 0.3); border: 1px solid var(--border-color); border-radius: 20px; max-width: 500px; margin: 30px auto; backdrop-filter: blur(12px);">
-            <div style="font-size: 2.5rem; margin-bottom: 15px;">🚀</div>
-            <h3 style="margin: 0 0 8px 0; font-size: 1.2rem; font-weight: 700; color: var(--text-main);">Проєктів ще немає</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5;">На базі поки що немає вивантажених портфоліо. Станьте першим розробником групи, хто задеплоїть свій сайт!</p>
-            <a href="/upload" style="display: inline-block; background: var(--accent-color); color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: opacity 0.2s;" onwhite="this.style.opacity='0.9'">
-                Завантажити перший проєкт
-            </a>
+        <div class="no-projects-placeholder">
+            <div class="placeholder-rocket">🚀</div>
+            <h3 class="placeholder-title">Сайтів ще немає</h3>
+            <p class="placeholder-desc">На хостингу поки що немає запущених ресурсів. Станьте першим, хто виведе свій сайт в онлайн!</p>
+            <a href="/upload" class="placeholder-action-btn">Опублікувати перший сайт</a>
         </div>
     {% endif %}
 </section>
-
 
 
 <section class="about-section">

@@ -60,57 +60,75 @@
                 <p class="upload-desc">Заповніть інформацію про себе та завантажте ZIP-архів вашого сайту для публікації.</p>
             </div>
 
-            <form class="upload-form" id="portfolio-form" action="/upload-portfolio" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="student-name">Ім'я та Прізвище</label>
-                    <input type="text" id="student-name" name="student_name" placeholder="напр. Олексій Нога" required autocomplete="off">
-                    <div class="form-hint" id="student-name-hint"></div>
+            <form class="upload-form" action="/upload-portfolio" method="POST" enctype="multipart/form-data">
+    
+                <h3 class="form-section-title">Інформація про автора</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student_name">Ваше ім'я та прізвище</label>
+                        <input type="text" id="student_name" name="student_name" placeholder="напр. Олексій Іванов" required>
+                        <div id="student_name-hint"></div> 
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project_role">Ваша спеціалізація (Роль)</label>
+                        <select id="project_role" name="project_role" required>
+                            <option value="" disabled selected>Оберіть роль...</option>
+                            <option value="frontend">Frontend Developer</option>
+                            <option value="backend">Backend Developer</option>
+                            <option value="fullstack">Fullstack Developer</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="student-role">Спеціалізація (Роль)</label>
-                        <select id="student-role" name="student_role" required>
-                            <option value="" disabled selected>Оберіть напрямок</option>
-                            <option value="frontend">Frontend Developer</option>
-                            <option value="backend">Backend Developer</option>
-                            <option value="fullstack">Fullstack Developer</option>
-                            <option value="designer">UI/UX Designer</option>
-                        </select>
+                        <label for="telegram">Telegram Username</label>
+                        <input type="text" id="telegram" name="telegram" placeholder="@username" required>
                     </div>
+
                     <div class="form-group">
-                        <label for="student-tg">Telegram нікнейм</label>
-                        <input type="text" id="student-tg" name="student_tg" placeholder="@username" required>
+                        <label for="email">E-mail адреса</label>
+                        <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
                     </div>
                 </div>
 
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">
+
+                <h3 class="form-section-title">Параметри вебресурсу</h3>
+
                 <div class="form-group">
-                    <label for="student-email">Електронна пошта</label>
-                    <input type="email" id="student-email" name="student_email" placeholder="dev@example.com" required autocomplete="off">
+                    <label for="site_name">Назва вашого сайту / проєкту</label>
+                    <input type="text" id="site_name" name="site_name" placeholder="напр. AlpsTravel Platform чи AlexiyATM" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="student-bio">Короткий опис для картки</label>
-                    <textarea id="student-bio" name="student_bio" rows="4" placeholder="Розкажіть декілька слів про себе та свій проєкт..." required></textarea>
+                    <label for="student_bio">Опис сайту (Що це за проєкт, які фічі?)</label>
+                    <textarea id="student_bio" name="student_bio" rows="4" placeholder="Короткий опис для картки провідних технологій та суті сайту..." required></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label>Архів вашого сайту (.zip)</label>
-                    <div class="drop-zone" id="drop-zone">
-                        <div class="drop-zone-content">
-                            <svg class="upload-icon" viewBox="0 0 24 24" width="40" height="40">
-                                <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5-5 5 5m-5-5v12"/>
-                            </svg>
-                            <span class="drop-zone-text">Перетягніть .zip архів сюди або клікніть для вибору</span>
-                            <span class="drop-zone-hint">Максимальний розмір файлу: 15MB. Перевірте наявність index.html в корені.</span>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Архів сайту (.ZIP)</label>
+                        <div class="file-upload-wrapper">
+                            <div class="file-upload-btn">Вибрати файл</div>
+                            <div class="file-upload-name" id="zip-label">Файл не вибрано</div>
+                            <input type="file" class="file-upload-input" name="zip_file" id="zip_file" accept=".zip" required>
                         </div>
-                        <input type="file" id="zip-file" name="zip_file" accept=".zip" class="drop-zone-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Обкладинка / Скріншот сайту (За бажанням)</label>
+                        <div class="file-upload-wrapper">
+                            <div class="file-upload-btn">Вибрати файл</div>
+                            <div class="file-upload-name" id="preview-label">Файл не вибрано</div>
+                            <input type="file" class="file-upload-input" name="preview_image" id="preview_image" accept="image/*">
+                        </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary submit-btn">
-                    <span>Запустити деплой</span>
-                </button>
+                <button type="submit" class="submit-btn">Задеплоїти сайт на платформу</button>
             </form>
         </div>
     </section>
