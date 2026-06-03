@@ -27,7 +27,7 @@ app = FastAPI(title="DEV•HUB API")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# models.Base.metadata.drop_all(bind=engine)
+models.Base.metadata.drop_all(bind=engine)
 models.Base.metadata.create_all(bind=engine)
 
 
@@ -178,7 +178,6 @@ async def upload_portfolio(
 
 
 
-
 @app.get("/api/check-student")
 async def check_student(name: str = Query(...), db: Session = Depends(get_db)):
     cleaned_name = " ".join(name.split()).strip()
@@ -195,7 +194,6 @@ async def check_student(name: str = Query(...), db: Session = Depends(get_db)):
             "email": student.student_email
         }
     return {"exists": False}
-
 
 
 

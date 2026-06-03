@@ -1,4 +1,3 @@
-// Очікуємо повного завантаження DOM-дерева
 document.addEventListener("DOMContentLoaded", () => {
     
     // =========================================================================
@@ -6,43 +5,37 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================================================
     const initDragAndDrop = () => {
         const dropZone = document.getElementById("drop-zone");
-        const fileInput = document.getElementById("zip-file");
+        const fileInput = document.getElementById("zip_file"); 
         const dropZoneText = document.querySelector(".drop-zone-text");
         const dropZoneHint = document.querySelector(".drop-zone-hint");
         const uploadIcon = document.querySelector(".upload-icon");
 
         if (!dropZone || !fileInput) return;
 
-        // Допоміжна функція: скидання стандартної поведінки браузера
         const preventDefaults = (e) => {
             e.preventDefault();
             e.stopPropagation();
         };
 
-        // Допоміжна функція: оновлення інтерфейсу при успішному виборі файлу
         const updateDropZoneWithFileInfo = (fileName) => {
             uploadIcon.innerHTML = `
                 <path fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
             `;
             uploadIcon.style.color = "#10B981";
-            
             dropZoneText.innerHTML = `Файл прикріплено: <span style="color: var(--accent-color); font-weight: 700;">${fileName}</span>`;
             dropZoneHint.textContent = "Ви можете натиснути кнопку 'Запустити деплой' для публікації.";
         };
 
-        // Слухач на звичайний клік та вибір файлу через провідник
         fileInput.addEventListener("change", () => {
             if (fileInput.files.length > 0) {
                 updateDropZoneWithFileInfo(fileInput.files[0].name);
             }
         });
 
-        // Скасовуємо стандартну поведінку для всіх Drag&Drop подій
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, preventDefaults, false);
         });
 
-        // Візуальні ефекти при наведенні файлу на зону
         ['dragenter', 'dragover'].forEach(eventName => {
             dropZone.addEventListener(eventName, () => {
                 dropZone.style.borderColor = "var(--accent-color)";
@@ -50,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }, false);
         });
 
-        // Повернення стилів до норми, якщо файл прибрали або скинули
         ['dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, () => {
                 dropZone.style.borderColor = "var(--border-color)";
@@ -58,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }, false);
         });
 
-        // Обробка події скидання файлу (Drop)
         dropZone.addEventListener("drop", (e) => {
             const dt = e.dataTransfer;
             const files = dt.files;
@@ -90,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let currentFilter = "all"; 
         let currentSearchText = ""; 
 
-        // Головна функція фільтрації
         const filterCards = () => {
             let visibleCount = 0;
 
@@ -109,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             
-            // Показ/приховування блоку "Нічого не знайдено"
             if (visibleCount === 0) {
                 if (portfoliosContainer) portfoliosContainer.style.display = "none"; 
                 if (noResultsBlock) noResultsBlock.style.display = "flex"; 
@@ -119,13 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        // Введення тексту в пошук
         searchInput.addEventListener("input", (e) => {
             currentSearchText = e.target.value.toLowerCase().trim();
             filterCards();
         });
 
-        // Клік по кнопках категорій (фільтрів)
         filterButtons.forEach(button => {
             button.addEventListener("click", () => {
                 const activeBtn = document.querySelector(".filter-btn.active");
@@ -137,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Кнопка скидання пошуку
         if (resetBtn) {
             resetBtn.addEventListener("click", () => {
                 searchInput.value = "";
@@ -158,18 +144,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. ПЕРЕВІРКА ІМЕНІ СТУДЕНТА ТА ПОПЕРЕДЖЕННЯ ПРО ЗМІНИ
     // =========================================================================
     const initStudentCheck = () => {
-        const nameInput = document.getElementById("student-name");
-        const nameHint = document.getElementById("student-name-hint");
-        const roleSelect = document.getElementById("student-role");
-        const tgInput = document.getElementById("student-tg");
-        const emailInput = document.getElementById("student-email");
+        const nameInput = document.getElementById("student_name");
+        const nameHint = document.getElementById("student_name-hint");
+        const roleSelect = document.getElementById("project_role");
+        const tgInput = document.getElementById("telegram");
+        const emailInput = document.getElementById("email");
 
         if (!nameInput || !nameHint) return;
 
         let debounceTimer;
         let serverData = null; 
 
-        // Перевірка, чи змінилися дані порівняно з базою
         const checkFieldsChange = () => {
             if (!serverData) return;
 
@@ -186,7 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        // Навішуємо слухачі на поля контактів
         [roleSelect, tgInput, emailInput].forEach(element => {
             if (element) {
                 element.addEventListener("change", checkFieldsChange);
@@ -194,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Валідація імені з Debounce (затримка 500мс для зменшення запитів до API)
         nameInput.addEventListener("input", () => {
             clearTimeout(debounceTimer);
             const nameValue = nameInput.value.trim();
@@ -213,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (data.exists) {
                         serverData = data; 
                         
-                        // Автозаповнення полів, якщо вони порожні
                         if (roleSelect && !roleSelect.value) roleSelect.value = data.role;
                         if (tgInput && !tgInput.value) tgInput.value = data.tg;
                         if (emailInput && !emailInput.value) emailInput.value = data.email;
@@ -241,14 +223,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!burgerMenu || !navMenu) return;
 
-        // Перемикач меню
         burgerMenu.addEventListener('click', () => {
             burgerMenu.classList.toggle('active');
             navMenu.classList.toggle('active');
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
 
-        // Закриття меню при кліку на посилання
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 burgerMenu.classList.remove('active');
@@ -259,27 +239,31 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // =========================================================================
-    // Ініціалізація всіх модулів
+    // 5. ОНОВЛЕННЯ ТЕКСТОВИХ МІТОК СТАНДАРТНИХ ІНПУТІВ ФОРМИ
     // =========================================================================
+    const initFileInputLabels = () => {
+        const zipFileInput = document.getElementById('zip_file');
+        const previewImgInput = document.getElementById('preview_image');
+        const zipLabel = document.getElementById('zip-label');
+        const previewLabel = document.getElementById('preview-label');
+
+        if (zipFileInput && zipLabel) {
+            zipFileInput.addEventListener('change', function() {
+                zipLabel.textContent = this.files[0] ? this.files[0].name : 'Файл не вибрано';
+            });
+        }
+
+        if (previewImgInput && previewLabel) {
+            previewImgInput.addEventListener('change', function() {
+                previewLabel.textContent = this.files[0] ? this.files[0].name : 'Файл не вибрано';
+            });
+        }
+    };
+
+    // Ініціалізація модулів після повного завантаження сторінки
     initDragAndDrop();
     initCatalogFilter();
     initStudentCheck();
     initBurgerMenu();
+    initFileInputLabels();
 });
-
-
-
-
-
-
-// Додаткові слухачі для оновлення назв вибраних файлів поруч з інпутами
-
-document.getElementById('zip_file').addEventListener('change', function() {
-        const name = this.files[0] ? this.files[0].name : 'Файл не вибрано';
-        document.getElementById('zip-label').textContent = name;
-    });
-
-    document.getElementById('preview_image').addEventListener('change', function() {
-        const name = this.files[0] ? this.files[0].name : 'Файл не вибрано';
-        document.getElementById('preview-label').textContent = name;
-    });
